@@ -1,29 +1,42 @@
 import React from "react";
 
+
 const AddCoffee = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const form = event.target;
+  const handleAddCoffee = e => {
+    e.preventDefault();
 
-    // Accessing form field values
-    const name = form.name.value;
-    const chef = form.chef.value;
-    const supplier = form.supplier.value;
-    const taste = form.taste.value;
-    const category = form.category.value;
-    const details = form.details.value;
-    const photo = form.photo.value;
+    const name = e.target.name.value;
+    const chef = e.target.chef.value;
+    const supplier = e.target.supplier.value;
+    const taste = e.target.taste.value;
+    const category = e.target.category.value;
+    const details = e.target.details.value;
+    const photo = e.target.photo.value;
 
- 
     const newCoffee = { name, chef, supplier, taste, category, details, photo };
     console.log(newCoffee);
 
-    App.post('/coffe', async(req,res) =>{
-        const newCoffe=req.body;
-        console.log();
+    // Send data to the server and database
+    fetch('http://localhost:5000/coffee', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCoffee)
     })
-
-    
+        // .then(res => res.json())
+        // .then(data => {
+        //     if (data.insertedId) {
+        //         console.log('Successfully added');
+        //         Swal.fire({
+        //             title: 'Success!',
+        //             text: 'Coffee added successfully',
+        //             icon: 'success',
+        //             confirmButtonText: 'Ok'
+        //         });
+        //         e.target.reset();
+        //     }
+        // });
   };
 
   return (
@@ -37,7 +50,7 @@ const AddCoffee = () => {
           flavors and experiences it offers. Let's make your coffee collection
           memorable!
         </p>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleAddCoffee} className="space-y-6">
           <div className="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
               <label
